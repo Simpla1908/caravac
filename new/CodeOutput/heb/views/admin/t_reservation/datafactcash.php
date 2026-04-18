@@ -1,0 +1,96 @@
+<?php
+//Mise en session pour impression
+$_SESSION['cash'] = array();
+$_SESSION['cash']['num'] = array();
+$_SESSION['cash']['cl'] = array();
+$_SESSION['cash']['resp'] = array();
+$_SESSION['cash']['dte'] = array();
+$_SESSION['cash']['ttc'] = array();
+$_SESSION['cash']['pay'] = array();
+$_SESSION['cash']['rest'] = array();
+//Fin mise en session
+$tot1 = 0;
+$tot2 = 0;
+$tot3 = 0;
+$i = 1;
+foreach ($result as $rows) {
+    if ($rows->mode == 'Cash' && $rows->heb == 1) {
+        $id_fact = $rows->id_fact;
+        $taux = $rows->taux;
+        $num_fact = $rows->num_fact;
+        $dte_a = $rows->dte_a;
+        $dte_s = $rows->dte_s;
+        $nom_client = $rows->nom_client;
+        $nom_respo = $rows->entreprise;
+        $dte_edt = $rows->dte;
+        $nuitee = NbJours($dte_a, $dte_s);
+        $totttc = FactureMontHeb($id_fact, $_SESSION['Paie_affiche'], $hrs_sys, $checkout, $bdd);
+        $infofactch = InfosFactByChambre2($id_fact, $bdd);
+        $id_resch = $infofactch->id_resch;
+        $totpaye = TotalPayeByChambre($bdd, $id_resch);
+        $reste = $totttc - $totpaye;
+        $tot1 += $totttc;
+        $tot2 += $totpaye;
+        $tot3 += $reste;
+        $colorstatut = '';
+        $statut = $rows->etat;
+        if ($statut == 'occupe') {
+            $colorstatut = 'bg-lime';
+        } elseif ($statut == 'reserve') {
+            $colorstatut = 'bg-red';
+        }
+        $totservices = 0;
+
+?>
+        <tr>
+            <td><?php echo $num_fact; ?></td>
+            <td><?php echo $nom_client; ?></td>
+            <td><?php echo $nom_respo; ?></td>
+            <td><?php echo dateAffiche($dte_edt); ?></td>
+            <!--<td><?php // echo dateAffiche($dte_a); 
+                    ?></td>-->
+            <!--<td><?php // echo dateAffiche($dte_s); 
+                    ?></td>-->
+            <!--<td><?php // echo $nuitee; 
+                    ?></td>-->
+            <td><?php echo afficheMontant($_SESSION['Paie_affiche'], $totttc); ?></td>
+            <td><?php echo afficheMontant($_SESSION['Paie_affiche'], $totpaye); ?></td>
+            <td><?php echo afficheMontant($_SESSION['Paie_affiche'], $reste); ?></td>
+            <td class="table-actions">
+                <div class="btn-group">
+                    <a href="<?php echo H_ADMIN; ?>&view=t_reservation&do=detfact2&id=<?php echo $id_fact; ?>" class="btn btn-primary btn-xs tip" title="Détail de la facture">
+                        <i class="fa fa-list fa-fw"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+<?php
+        array_push($_SESSION['cash']['num'], $num_fact);
+        array_push($_SESSION['cash']['cl'], $nom_client);
+        array_push($_SESSION['cash']['resp'], $nom_respo);
+        array_push($_SESSION['cash']['dte'], dateAffiche($dte_edt));
+        array_push($_SESSION['cash']['ttc'], afficheMontant($_SESSION['Paie_affiche'], $totttc));
+        array_push($_SESSION['cash']['pay'], afficheMontant($_SESSION['Paie_affiche'], $totpaye));
+        array_push($_SESSION['cash']['rest'], afficheMontant($_SESSION['Paie_affiche'], $reste));
+    }
+}; ?>
+<tr>
+    <!--<td></td>-->
+    <td><b>Total</b></td>
+    <td></td>
+    <td></td>
+    <!--    <td></td>
+    <td></td>-->
+    <td></td>
+    <td><b><?php echo afficheMontant($_SESSION['Paie_affiche'], $tot1); ?></b></td>
+    <td><b><?php echo afficheMontant($_SESSION['Paie_affiche'], $tot2); ?></b></td>
+    <td><b><?php echo afficheMontant($_SESSION['Paie_affiche'], $tot3); ?></b></td>
+    <td></td>
+</tr>
+<?php
+$_SESSION['cash_tot1'] = afficheMontant($_SESSION['Paie_affiche'], $tot1);
+$_SESSION['cash_tot2'] = afficheMontant($_SESSION['Paie_affiche'], $tot2);
+$_SESSION['cash_tot3'] = afficheMontant($_SESSION['Paie_affiche'], $tot3);
+
+
+?>

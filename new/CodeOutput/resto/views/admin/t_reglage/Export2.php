@@ -1,0 +1,135 @@
+
+	<?php
+	/*
+	* =======================================================================
+	* FILE NAME:        Export2.php
+	* DATE CREATED:  	17-11-2017
+	* FOR TABLE:  		t_reglage
+	* PRODUCED BY:		HEZECOM UltimateSpeed PHP CODE GENERATOR
+	* AUTHOR:			Hezecom (http://hezecom.com) info@hezecom.net
+	* =======================================================================
+	*/
+	if(!defined('VALID_DIR')) die('You are not allowed to execute this file directly');
+	?>
+	<?php
+	$etype=get('etype');
+	$excel='
+	<p style="font-family:arial; font-size:18px;" align="left">
+	<strong style="font-family:arial;">'.LANG_REPORT_TITLE.'</strong><br>'.LANG_REPORT_SUB_TITLE.'<br>
+	<strong>'.LANG_REPORT_TABLE.'</strong> T Reglage</p>';
+	$excel.='
+	<table border="1" cellspacing="0" width="100%" style="font-family:arial; font-size:14px;" cellpadding="5">
+    <tr>
+	<td>Remise</td>
+	<td>'.$rows->remise.'</td>
+  	</tr>
+    <tr>
+	<td>Majoration</td>
+	<td>'.$rows->majoration.'</td>
+  	</tr>
+    <tr>
+	<td>Date Regl</td>
+	<td>'.$rows->date_regl.'</td>
+  	</tr>
+    <tr>
+	<td>Dte H</td>
+	<td>'.$rows->dte_h.'</td>
+  	</tr>
+    <tr>
+	<td>Temps Regl</td>
+	<td>'.$rows->temps_regl.'</td>
+  	</tr>
+    <tr>
+	<td>Time Checkin</td>
+	<td>'.$rows->time_checkin.'</td>
+  	</tr>
+    <tr>
+	<td>M Insert</td>
+	<td>'.$rows->m_insert.'</td>
+  	</tr>
+    <tr>
+	<td>M Affiche</td>
+	<td>'.$rows->m_affiche.'</td>
+  	</tr>
+    <tr>
+	<td>Tauxdollar</td>
+	<td>'.$rows->tauxdollar.'</td>
+  	</tr>
+    <tr>
+	<td>Taux Op</td>
+	<td>'.$rows->taux_op.'</td>
+  	</tr>
+    <tr>
+	<td>Tva</td>
+	<td>'.$rows->tva.'</td>
+  	</tr>
+    <tr>
+	<td>Pourcentage Defaut</td>
+	<td>'.$rows->pourcentage_defaut.'</td>
+  	</tr>
+    <tr>
+	<td>Pourcentage 24 Heure</td>
+	<td>'.$rows->pourcentage_24_heure.'</td>
+  	</tr>
+    <tr>
+	<td>Pourcentage 48 Heure</td>
+	<td>'.$rows->pourcentage_48_heure.'</td>
+  	</tr>
+    <tr>
+	<td>Pourcentage 72 Heure</td>
+	<td>'.$rows->pourcentage_72_heure.'</td>
+  	</tr>
+    <tr>
+	<td>Pourcentage Sup 72 Heure</td>
+	<td>'.$rows->pourcentage_sup_72_heure.'</td>
+  	</tr>
+    <tr>
+	<td>Type Annul</td>
+	<td>'.$rows->type_annul.'</td>
+  	</tr>
+    <tr>
+	<td>Fcon Heberge</td>
+	<td>'.$rows->fcon_heberge.'</td>
+  	</tr>
+    <tr>
+	<td>User Id</td>
+	<td>'.$rows->user_id.'</td>
+  	</tr>
+    <tr>
+	<td>Id Hotel</td>
+	<td>'.$rows->id_hotel.'</td>
+  	</tr>
+    <tr>
+	<td>Company Id</td>
+	<td>'.$rows->company_id.'</td>
+  	</tr>';
+   $excel.='</table>';
+	
+	$filename1= 't_reglage_'.date('Y-m-d').'.doc';
+	$filename2= 't_reglage_'.date('Y-m-d').'.xls';
+	$pdf_output= 't_reglage_'.date('Y-m-d').'.pdf';
+	if ($etype == 'word') {
+	header("Content-type: application/msword");
+	header("Content-Disposition: attachment; filename=$filename1");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+	print $excel;
+	}
+	elseif ($etype == 'excel') {
+	header("Content-type: application/msexcel");
+	header("Content-Disposition: attachment; filename=$filename2");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+	print $excel;
+	}
+	elseif ($etype == 'printer') {
+	print'<title>'.H_TITLE.'</title>
+	<script type="text/javascript">
+	window.onload = function () {
+		window.print();
+	}
+	</script>
+	';
+	print $excel;
+	}
+	

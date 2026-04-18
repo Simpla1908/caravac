@@ -1,0 +1,29 @@
+ public function totalMontantPaye($id_fact) {
+        $bdd = HDB::hus();
+        $total = 0;
+        $req = "
+        SELECT SUM(e.montantusd*e.taux+e.montantcdf-e.rendu) AS montant_paye
+        FROM  t_facture AS b, t_reglement AS d, paiement AS e
+        WHERE b.id_fact=d.id_fact 
+        AND d.id_regl=e.regl_id 
+        AND b.id_fact=:id";
+        $requete = $bdd->prepare($req);
+        $requete->BindParam(':id', $id_fact);
+        $requete->execute();
+        $result = $requete->fetchAll(PDO::FETCH_OBJ);
+        foreach ($result as $op) {
+            $total = $op->montant_paye;
+        }
+        return $total;
+    }
+
+
+//Recuperer le taux de la facture
+function getTauxFacture2($monnaie_fact,$tauxdollar,$taux_fact){
+    if ($monnaie_fact == getsymbole_devise()) {
+        $taux_fact =$tauxdollar;
+    }else{
+        $taux_fact = $taux_fact;
+    }
+    return $taux_fact;
+}

@@ -1,0 +1,296 @@
+@charset "utf-8";
+/* CSS Document */
+#img-header{
+	width:200px;
+	height:40px;
+	/*border:1px solid #000;*/
+	margin-left:15px;
+	margin-top:5px;
+}
+#footer{
+	width:1050px;
+	height:100px;
+	background:#000;;
+}
+#infos{
+	width:600px; 
+	height:400px; 
+	/*background-color:#FFF; */
+	margin:auto;
+	background:url(../img/back1.png);
+	background-repeat:repeat-x;
+}
+
+#resultat{
+    /*box-shadow: 3px 3px 3px #ccc;*/ 
+/*    width:300px;*/
+    position: absolute;
+    z-index: 120;
+    top:33px;
+    background-color: #fff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-shadow:5px 5px 5px rgba(0,0,0,0.075);
+}
+#contenairej{
+    position:absolute;
+}
+#resultat ul{
+    margin: 0;
+    padding: 0; 
+    /*width:300px;*/
+    line-height: 1.9em;
+    display: none;
+    
+}
+
+#resultat li{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 3px;
+}
+#resultat ul li a{
+    color: #000;
+    text-decoration: none;
+/*    width:300px;*/
+    display: block;
+    /*border: 1px solid #cccccc;*/
+    border-top: 0px;
+    padding-left: 50px;
+    padding-right: 53px;
+}
+#resultat ul li a:hover{
+    background-color: #5f8bca;
+    color: #fff;
+}
+
+
+
+
+
+.taill{
+    margin:0px auto;
+    width:300px;
+}
+
+@media (min-width:992px){.modal-lgs{width:1000px}}
+@media (min-width:992px){.modal-lge{width:1100px}}
+@media (min-width:492px){.modal-lgm{width:700px}}
+
+.btn-app {
+  border-radius: 3px;
+  position: relative;
+  padding: 15px 5px;
+  margin: 0 0 10px 10px;
+  min-width: 80px;
+  height: 60px;
+  text-align: center;
+  color: #666;
+  border: 1px solid #ddd;
+  background-color: #f4f4f4;
+  font-size: 12px;
+}
+.btn-app > .fa,
+.btn-app > .glyphicon,
+.btn-app > .ion {
+  font-size: 20px;
+  display: block;
+}
+.btn-app:hover {
+  background: #f4f4f4;
+  color: #444;
+  border-color: #aaa;
+}
+.btn-app:active,
+.btn-app:focus {
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  -moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn-app > .badge {
+  position: absolute;
+  top: -3px;
+  right: -10px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.feature, .feature-2 {
+    background: #fff;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #f1f1f1;
+}
+
+.feature-2 {
+    text-align: center;
+}
+.btn-center {
+    text-align: center;
+}
+
+.feature h4, .feature-2 h4{
+    font-size: 22px;
+    color: #444;
+    padding-bottom: 10px;
+    font-weight: 300;
+    font-family: 'Oswald', sans-serif;
+}
+
+.feature p, .feature-2 p {
+    color: #444;
+    font-size: 8px;
+    line-height: 20px;
+    font-weight: 300;
+    font-family: 'Oswald', sans-serif;
+}
+
+.feature p {
+    text-align: justify;
+}
+
+.feature i, .feature-2 i {
+   font-size:40px;
+   padding:1px 10px 0 1px;
+   position: relative;
+    width: 50px;
+    height: 50px;
+    color: #28ABE3;
+}
+
+.btn-main {
+  color: #fff;
+  background-color: #5BB12F;
+  border-color: #5BB12F;
+}
+.btn-main:hover,
+.btn-main:focus,
+.btn-main:active {
+  background-color: #33b5ac;
+  border-color: #33b5ac;
+  color: #fff;
+}
+.btn.btn-lg {
+  padding: 10px 35px;
+  letter-spacing: 2px;
+  font-size: 21px;
+}
+.btn1 {
+  font-family: "Oswald";
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 40px;
+  padding: 8px 30px;
+  margin-bottom: 5px;
+  -webkit-transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+          transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+}
+
+
+
+
+img { max-width: 100%; }
+
+::-moz-selection { background: #19b9e7; color: #fff; text-shadow: none; }
+::selection { background: #19b9e7; color: #fff; text-shadow: none; }
+
+
+.btn-link-1 {
+	display: inline-block;
+	height: 50px;
+	margin: 5px;
+	padding: 16px 20px 0 20px;
+	background: #19b9e7;
+	font-size: 16px;
+    font-weight: 300;
+    line-height: 16px;
+    color: #fff;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
+.btn-link-1:hover, .btn-link-1:focus, .btn-link-1:active { outline: 0; opacity: 0.6; color: #fff; }
+
+.btn-link-1.btn-link-1-facebook { background: #4862a3; }
+.btn-link-1.btn-link-1-twitter { background: #55acee; }
+.btn-link-1.btn-link-1-google-plus { background: #dd4b39; }
+
+.btn-link-1 i {
+	padding-right: 5px;
+	vertical-align: middle;
+	font-size: 20px;
+	line-height: 20px;
+}
+
+.btn-link-2 {
+	display: inline-block;
+	height: 50px;
+	margin: 5px;
+	padding: 15px 20px 0 20px;
+	background: rgba(0, 0, 0, 0.3);
+	border: 1px solid #fff;
+	font-size: 16px;
+    font-weight: 300;
+    line-height: 16px;
+    color: #fff;
+    -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+}
+.btn-link-2:hover, .btn-link-2:focus, 
+.btn-link-2:active, .btn-link-2:active:focus { outline: 0; opacity: 0.6; background: rgba(0, 0, 0, 0.3); color: #fff; }
+
+
+
+/* red */
+.icheckbox_flat-red,
+.iradio_flat-red {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(red.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.icheckbox_flat-red {
+    background-position: 0 0;
+}
+    .icheckbox_flat-red.checked {
+        background-position: -22px 0;
+    }
+    .icheckbox_flat-red.disabled {
+        background-position: -44px 0;
+        cursor: default;
+    }
+    .icheckbox_flat-red.checked.disabled {
+        background-position: -66px 0;
+    }
+
+.iradio_flat-red {
+    background-position: -88px 0;
+}
+    .iradio_flat-red.checked {
+        background-position: -110px 0;
+    }
+    .iradio_flat-red.disabled {
+        background-position: -132px 0;
+        cursor: default;
+    }
+    .iradio_flat-red.checked.disabled {
+        background-position: -154px 0;
+    }
+
+/* Retina support */
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (-moz-min-device-pixel-ratio: 1.5),
+       only screen and (-o-min-device-pixel-ratio: 3/2),
+       only screen and (min-device-pixel-ratio: 1.5) {
+    .icheckbox_flat-red,
+    .iradio_flat-red {
+        background-image: url(red@2x.png);
+        -webkit-background-size: 176px 22px;
+        background-size: 176px 22px;
+    }
+}

@@ -1,0 +1,301 @@
+                    <?php
+                    //Mise en session pour impression
+                    $_SESSION['grandlivre'] = array();
+                    $_SESSION['grandlivre']['numerocompte'] = array();
+                    $_SESSION['grandlivre']['compte'] = array();
+                    $_SESSION['grandlivre']['date'] = array();
+                    $_SESSION['grandlivre']['reference'] = array();
+                    $_SESSION['grandlivre']['libelle'] = array();
+                    $_SESSION['grandlivre']['debitcdf'] = array();
+                    $_SESSION['grandlivre']['creditcdf'] = array();
+                    $_SESSION['grandlivre']['solde1'] = array();
+                    $_SESSION['grandlivre']['devise'] = array();
+                    $_SESSION['grandlivre']['cours'] = array();
+                    $_SESSION['grandlivre']['debitusd'] = array();
+                    $_SESSION['grandlivre']['creditusd'] = array();
+                    $_SESSION['grandlivre']['solde2'] = array();
+                    $_SESSION['grandlivre']['afficher'] = array();
+                    //fin mise en session
+                     $devisecdf='CDF';
+                     $deviseusd='USD';
+                     $totdebitcdf=0;
+                     $totdebitusd=0;
+                     $totcreditcdf=0;
+                     $totcreditusd=0;
+                     $totsolde1=0;
+                     $totsolde2=0;
+
+                    $resultCGL=ComptesGrandLivre($exercice_id,$numerocompte,$d1,$d2,$site_id,$bdd);
+                    var_dump($resultCGL);
+                    foreach ($resultCGL as $rowsCGL) {
+                      $dataCGL=INFOSFromAccountNumber($rowsCGL->compte_ecriture,$rowsCGL->long_compte,$bdd);
+                      $libcompte=$dataCGL['lib'];
+                      $numerocompteCGL=$rowsCGL->compte_ecriture;
+       
+                     if (!in_array($numerocompteCGL,$_SESSION['grandlivre']['numerocompte'])) {       
+                          
+                     $result=GenererGrandLivre($exercice_id,$numerocompteCGL,$d1,$d2,$site_id,$bdd);  
+                     $cumuls=GenererGrandLivreCumuls($exercice_id,$numerocompteCGL,$d1,$d2,$site_id,$bdd);  
+
+                     $debitcdf=$cumuls['debitcdf'];
+                     $creditcdf=$cumuls['creditcdf'];
+                     $debitusd=$cumuls['debitusd'];
+                     $creditusd=$cumuls['creditusd'];
+
+                     $stotdebitcdf=0;
+                     $stotdebitusd=0;
+
+                     $stotcreditcdf=0;
+                     $stotcreditusd=0;
+                     $solde1=$cumuls['solde1'];
+                     $solde2=$cumuls['solde2'];
+
+                     $stotsolde1=$solde1;
+                     $stotsolde2=$solde2;
+                      array_push($_SESSION['grandlivre']['numerocompte'],$numerocompteCGL);
+                      array_push($_SESSION['grandlivre']['afficher'],'1');
+                      array_push($_SESSION['grandlivre']['compte'],ucfirst($libcompte));
+                      array_push($_SESSION['grandlivre']['date'],'');
+                      array_push($_SESSION['grandlivre']['reference'],'');
+                      array_push($_SESSION['grandlivre']['libelle'],'');
+                      array_push($_SESSION['grandlivre']['debitcdf'],'');
+                      array_push($_SESSION['grandlivre']['creditcdf'],'');
+                      array_push($_SESSION['grandlivre']['creditcdf'],'');
+                      array_push($_SESSION['grandlivre']['solde1'],'');
+                      array_push($_SESSION['grandlivre']['devise'],'');
+                      array_push($_SESSION['grandlivre']['cours'],'');
+                      array_push($_SESSION['grandlivre']['debitusd'],'');
+                      array_push($_SESSION['grandlivre']['creditusd'],'');
+                      array_push($_SESSION['grandlivre']['solde1'],'');
+
+                      array_push($_SESSION['grandlivre']['afficher'],'1');
+                      array_push($_SESSION['grandlivre']['compte'],'');
+                      array_push($_SESSION['grandlivre']['date'],'<b>Cumul antérieur</b>');
+                      array_push($_SESSION['grandlivre']['reference'],'');
+                      array_push($_SESSION['grandlivre']['libelle'],'');
+                      array_push($_SESSION['grandlivre']['debitcdf'],$debitcdf);
+                      array_push($_SESSION['grandlivre']['creditcdf'],$creditcdf);
+                      array_push($_SESSION['grandlivre']['solde1'],$solde1);
+                      array_push($_SESSION['grandlivre']['devise'],'');
+                      array_push($_SESSION['grandlivre']['cours'],'');
+                      array_push($_SESSION['grandlivre']['debitusd'],$debitusd);
+                      array_push($_SESSION['grandlivre']['creditusd'],$creditusd);
+                      array_push($_SESSION['grandlivre']['solde2'],$solde2);
+
+                     foreach ($result as $rows) {
+                      $data=INFOSFromAccountNumber($rows->compte_ecriture,$rows->long_compte,$bdd);
+                      $libcompte=$data['lib'];
+                      $numero=$rows->compte_ecriture;
+
+                      $debitcdf=0;
+                      $debitcdftxt='';
+
+                      if($rows->debit>0){
+                      $debitcdf=arrondir(montant_equivalent_bdd($rows->devise,$devisecdf,$rows->taux,$rows->debit)); 
+                      $stotdebitcdf=$stotdebitcdf+$debitcdf;
+                      }
+                      $creditcdf=0;
+                      $creditcdftxt='';
+                      if($rows->credit>0){
+                      $creditcdf=arrondir(montant_equivalent_bdd($rows->devise,$devisecdf,$rows->taux,$rows->credit));
+                      $stotcreditcdf=$stotcreditcdf+$creditcdf; 
+                       }
+                        $debitusd=0;
+                        $debitusdtxt='';
+                        if($rows->debit>0){
+                        $debitusd=arrondir(montant_equivalent_bdd($rows->devise,$deviseusd,$rows->taux,$rows->debit)); 
+                        $stotdebitusd=$stotdebitusd+$debitusd;
+                        }
+                        $creditusd=0;
+                        $creditusdtxt='';
+                        if($rows->credit>0){
+                        $creditusd=arrondir(montant_equivalent_bdd($rows->devise,$deviseusd,$rows->taux,$rows->credit));
+                        $stotcreditusd=$stotcreditusd+$creditusd;  
+                        }
+                      $solde1=$debitcdf-$creditcdf;
+                      $solde2=$debitusd-$creditusd;
+                      array_push($_SESSION['grandlivre']['afficher'],'0');
+                      array_push($_SESSION['grandlivre']['compte'],'');
+                      array_push($_SESSION['grandlivre']['date'],dateAffiche($rows->dte));
+                      array_push($_SESSION['grandlivre']['reference'],$rows->reference);
+                      array_push($_SESSION['grandlivre']['libelle'],ucfirst($rows->descriptjourn));
+                      array_push($_SESSION['grandlivre']['debitcdf'],$debitcdftxt);
+                      array_push($_SESSION['grandlivre']['creditcdf'],$creditcdftxt);
+                      array_push($_SESSION['grandlivre']['solde1'],$solde1);
+                      array_push($_SESSION['grandlivre']['devise'],$devise);
+                      array_push($_SESSION['grandlivre']['cours'],$rows->taux);
+                      array_push($_SESSION['grandlivre']['debitusd'],$debitusdtxt);
+                      array_push($_SESSION['grandlivre']['creditusd'],$creditusdtxt);
+                      array_push($_SESSION['grandlivre']['solde2'],$solde2);
+                    
+
+                     } 
+                    if($stotdebitcdf!=0&&$stotcreditcdf!=0&&$stotdebitusd!=0&&$stotcreditusd!=0){
+                    array_push($_SESSION['grandlivre']['afficher'],'0');
+                    array_push($_SESSION['grandlivre']['compte'],'');
+                    array_push($_SESSION['grandlivre']['date'],'<b>Sous total</b>');
+                    array_push($_SESSION['grandlivre']['reference'],'');
+                    array_push($_SESSION['grandlivre']['libelle'],'');
+                    array_push($_SESSION['grandlivre']['debitcdf'],$stotdebitcdf);
+                    array_push($_SESSION['grandlivre']['creditcdf'],$stotcreditcdf);
+                    array_push($_SESSION['grandlivre']['solde1'],$stotsolde1);
+                    array_push($_SESSION['grandlivre']['compte'],'');
+                    array_push($_SESSION['grandlivre']['devise'],'');
+                    array_push($_SESSION['grandlivre']['cours'],'');
+                    array_push($_SESSION['grandlivre']['debitusd'],$stotdebitusd);
+                    array_push($_SESSION['grandlivre']['creditusd'],$stotcreditusd);
+                    array_push($_SESSION['grandlivre']['solde2'],$stotsolde2);
+                    } 
+                    $totdebitcdf=$totdebitcdf+$stotdebitcdf;
+                    $totcreditcdf=$totcreditcdf+$stotcreditcdf;
+                    $totdebitusd=$totdebitusd+$stotdebitusd;
+                    $totcreditusd=$totcreditusd+$stotcreditusd;
+                    $totsolde1=$totsolde1+$stotsolde1;
+                    $totsolde2=$totsolde2+$stotsolde2;
+
+
+                    } 
+                    } 
+                    $_SESSION['totdebitcdf']=$totdebitcdf;
+                    $_SESSION['totcreditcdf']=$totcreditcdf;
+                    $_SESSION['totdebitusd']=$totdebitusd;
+                    $_SESSION['totcreditusd']=$totcreditusd;
+                    $_SESSION['totsolde1']=$totsolde1;
+                    $_SESSION['totsolde2']=$totsolde2;
+
+
+                     ?>
+            <div class="col-lg-12 table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Ref.</th>
+                            <th>Libellé</th>
+                            <th>Débit</th>  
+                            <th>Crédit</th>
+                            <th>Solde</th>
+                            <th>Dévise</th>
+                            <th>Cours</th>
+                            <th>Débit</th>
+                            <th>Crédit</th>
+                            <th>Solde</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <?php
+                $nbArticles = count($_SESSION['grandlivre']['compte']);
+                for ($i = 0; $i <= $nbArticles - 1; $i++) {
+                  ?>
+
+
+                <?php
+                if($_SESSION['grandlivre']['afficher'][$i]=='1'){
+                ?>
+                    <tr>
+                        <td colspan="11" align="center"><?php echo $_SESSION['grandlivre']['compte'][$i]; ?></td>
+                    </tr>
+                <?php
+                  } 
+                ?>
+
+
+              <?php
+                
+                if($_SESSION['grandlivre']['afficher'][$i]=='1'){
+                ?>
+                      <tr>
+                        <td><?php echo $_SESSION['grandlivre']['date'][$i]; ?></td>
+                        <td><?php echo $_SESSION['grandlivre']['reference'][$i];?></td>
+                        <td><?php echo $_SESSION['grandlivre']['libelle'][$i];?></td>
+                        <td>
+                        <?php echo $_SESSION['grandlivre']['debitcdf'][$i]; ?>
+                        </td>
+                         <td>
+                        <?php 
+                        echo $_SESSION['grandlivre']['creditcdf'][$i];
+                        ?>
+                        </td> 
+                          <td>
+                        <?php 
+                        echo $_SESSION['grandlivre']['solde1'][$i];
+                        ?>
+                        </td> 
+                        <td><?php echo $_SESSION['grandlivre']['devise'][$i]; ?></td>
+                        <td><?php echo $_SESSION['grandlivre']['cours'][$i]; ?></td>
+                        <td>
+                        <?php
+                        echo $_SESSION['grandlivre']['debitusd'][$i];
+                        ?>
+                        </td>
+                        <td>
+                        <?php
+                        echo $_SESSION['grandlivre']['creditusd'][$i];
+                        ?>
+                        </td>
+                         <td>
+                        <?php 
+                        echo $_SESSION['grandlivre']['solde2'][$i];
+                        ?>
+                        </td> 
+
+                    </tr>
+                <?php
+                  } 
+                ?>
+
+                    <tr>
+                        <td><?php echo $_SESSION['grandlivre']['date'][$i]; ?></td>
+                        <td><?php echo $_SESSION['grandlivre']['reference'][$i];?></td>
+                        <td><?php echo $_SESSION['grandlivre']['libelle'][$i];?></td>
+                        <td>
+                        <?php echo $_SESSION['grandlivre']['debitcdf'][$i]; ?>
+                        </td>
+                         <td>
+                        <?php 
+                        echo $_SESSION['grandlivre']['creditcdf'][$i];
+                        ?>
+                        </td> 
+                          <td>
+                        <?php 
+                        echo $_SESSION['grandlivre']['solde1'][$i];
+                        ?>
+                        </td> 
+                        <td><?php echo $_SESSION['grandlivre']['devise'][$i]; ?></td>
+                        <td><?php echo $_SESSION['grandlivre']['cours'][$i]; ?></td>
+                        <td>
+                        <?php
+                        echo $_SESSION['grandlivre']['debitusd'][$i];
+                        ?>
+                        </td>
+                        <td>
+                        <?php
+                        echo $_SESSION['grandlivre']['creditusd'][$i];
+                        ?>
+                        </td>
+                         <td>
+                        <?php 
+                        echo $_SESSION['grandlivre']['solde2'][$i];
+                        ?>
+                        </td> 
+
+                    </tr>
+                    <?php
+                     } 
+                     ?>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                      <th colspan="3">TOTAL</th>
+                      <th ><?php echo $_SESSION['totdebitcdf'];?></th>
+                      <th ><?php echo $_SESSION['totcreditcdf'];?></th>
+                      <th ><?php echo $_SESSION['totsolde1'];?></th>
+                      <th colspan="3"></th>
+                      <th ><?php echo $_SESSION['totdebitusd'];?></th>
+                      <th ><?php echo $_SESSION['totcreditusd'];?></th>
+                      <th ><?php echo $_SESSION['totsolde2'];?></th>
+                      </tr>
+                    </tfoot>
+                </table>
+            </div>

@@ -1,0 +1,78 @@
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-upload{
+    outline: none;
+    background: white;
+    /*width: 100%;*/
+}
+
+/*
+ * Component: Table
+ * ----------------
+ */
+.table2 > thead > tr > th,
+.table2 > tbody > tr > th,
+.table2 > tfoot > tr > th,
+.table2 > thead > tr > td,
+.table2 > tbody > tr > td,
+.table2 > tfoot > tr > td {
+  border-top: 1px solid #f4f4f4;
+}
+.table2 > thead > tr > th {
+  border-bottom: 2px solid #f4f4f4;
+}
+.table2 tr td .progress {
+  margin-top: 15px;
+}
+.table-bordered {
+  border: 1px solid #f4f4f4;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #f4f4f4;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+.table2.no-border,
+.table2.no-border td,
+.table2.no-border th {
+  border: 0;
+}
+/* .text-center in tables */
+table2.text-center,
+table2.text-center td,
+table2.text-center th {
+  text-align: center;
+}
+.table2.align th {
+  text-align: left;
+}
+.table2.align td {
+  text-align: right;
+}
+

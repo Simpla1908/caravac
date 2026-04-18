@@ -1,0 +1,300 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Personnel
+        <!--<small>Control panel</small>-->
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="index.php"><i class="fa fa-dashboard"></i> Tableau de Bord</a></li>
+        <li class="active">Personnel</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="col-md-5">
+                        <h3 class="box-title"><i class="fa fa-edit"></i> Saisie informations</h3> 
+                    </div>
+                    <div class="col-md-7">
+                        <a href="?content=personnel" class="btn btn-danger btn-sm"><i class="fa  fa-list"></i> Liste personnel</a>
+                    </div>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-wrench"></i></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form class="form-horizontal">
+                    <div class="box-body">
+                        <!-- Custom Tabs -->
+                        <div class="nav-tabs-custom">
+                          <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_1" data-toggle="tab">Information personnelle</a></li>
+                            <li><a href="#tab_2" data-toggle="tab">Détail enfant</a></li>
+                            <li><a href="#tab_3" data-toggle="tab">Paramettre RH</a></li>
+                          </ul>
+                          <div class="tab-content no-border">
+                            <div class="tab-pane active" id="tab_1">
+                                <div class="col-md-5">
+                                    <br><br>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Noms</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Noms">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Matricule</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Matricule">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Sexe</label>
+
+                                        <div class="col-sm-8">
+                                            <select class="form-control">
+                                                <option>Sexe</option>
+                                                <option value="masculin">Masculin</option>
+                                                <option value="feminin">Feminin</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSkills" class="col-sm-4 control-label">Etat civil</label>
+
+                                        <div class="col-sm-8">
+                                            <select class="form-control">
+                                                <option>Etat civil</option>
+                                                <option value="marie">Marié</option>
+                                                <option value="celibataire">Celibataire</option>
+                                                <option value="divorce">Divorcé</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Nationalité</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Nationalité">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Lieu de naiss.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Lieu de naissance">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSkills" class="col-sm-4 control-label">Date de naiss.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" placeholder="Date de naissance" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSkills" class="col-sm-4 control-label">Adresse</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputSkills" placeholder="Adresse">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <br><br>
+                                    <div class="form-group">
+                                        <label for="inputSkills" class="col-sm-4 control-label">No Pièce Ind.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputSkills" placeholder="No Pièce Indentité">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Email.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="email" class="form-control" id="inputName" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputSkills" class="col-sm-4 control-label">Téléphone</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputSkills" placeholder="Téléphone">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Nom conjoint(e)</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Nom du conjoint(e)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Nbr. enfant</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Nombre d'enfant">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label"></label>
+
+                                        <div class="col-sm-8">
+                                            <img class="profile-user-img img-responsive" src="dist/img/user4-128x128.jpg" alt="User profile picture">
+                                            <br>
+                                            <input class="text-center" type="file" id="exampleInputFile">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 box-profile">
+                                    
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_2">
+                                <div class="col-md-5">
+                                    <br><br>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Noms</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Noms">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Noms</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Noms">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Noms</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Noms">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <br><br>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Date de naiss.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Date de naissance" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Date de naiss.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Date de naissance" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Date de naiss.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Date de naissance" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-danger alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <h4><i class="icon fa fa-info"></i> Alert!</h4>
+                                        Nombre d'enfant non saisi.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_3">
+                                <div class="col-md-5">
+                                    <br><br>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Date d'eng.</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputName" placeholder="Date d'engagement" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Catégorie prof</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Catégorie professionnel">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Ancienneté</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Ancienneté">
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="col-md-5">
+                                    <br><br>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-4 control-label">Département</label>
+
+                                        <div class="col-sm-8">
+
+                                            <select class="form-control select2" style="width: 100%;">
+                                                <option selected="selected">Direction General</option>
+                                                <option value="comptabilté">Comptabilté</option>
+                                                <option value="informatique">Informatique</option>
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-4 control-label">Fonction</label>
+
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="inputEmail" placeholder="Fonction">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.tab-pane -->
+                          </div>
+                          <!-- /.tab-content -->
+                        </div>
+                        <!-- nav-tabs-custom -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <a href="?content=personnel_view" class="btn btn-danger pull-right"><i class="fa fa-check-circle"></i> Valider</a>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
