@@ -36,6 +36,10 @@ $nbrcouvert = 0;
 $serveur_id = $_POST['serveur_id'];
 $caissier_id = $_POST['caissier_id'];
 $caissier_name=$_POST['caissier_name'];
+if($_SESSION['type_user']!=1){ 
+$caissier_id =$_SESSION['id_user'];
+}
+
 /* $date_bd1=$date_bd2=  date('Y-m-d');
   $_SESSION['produit']=  VenteJournaliere($_SESSION['id_hotel'], $date_bd1, $date_bd2, $tauxdollar, $m_affiche, $bdd);
   $nbre_rows = count($_SESSION['produit']['code']); */
@@ -287,7 +291,6 @@ $nbre_rows = count($_SESSION['prod']['id']);
             $montant_credit = 0;
             $montant_cash = 0;
             $familleTypeId = $catVente['numTarif'][$i];
-            $designation = $catVente['categorieVente'][$familleTypeId];
             $designation = $catVente['categorieVente'][$familleTypeId];
 
             if (isset($catVente['montant_cash'][$familleTypeId])) {

@@ -268,59 +268,31 @@ if ($do == 'payer1' || $do == 'payer2') {
             $requete->BindParam(':client_id', $id_client);
             $requete->execute();
             /* Update dans t_facture */
-            $requete = $bdd->prepare("SELECT id_user FROM t_facture WHERE id_fact = :id_fact");
-            $requete->execute([':id_fact' => $id_fact]);
-
-            $id_user_prev = $requete->fetchColumn(); 
-
-
-                    $requete = $bdd->prepare("
-                UPDATE t_facture SET 
-                    etat = :etat,
-                    etat_cmd = '0',
-                    mont_ttc = :mont_ttc,
-                    mode = :mode,
-                    taux = :taux,
-                    taux_prix = :taux_prix,
-                    id_client = :id_client,
-                    montant_total = :montant_total,
-                    mont_tva = :mont_tva,
-                    remise = :remise,
-                    mont_ttc_remise = :mont_ttc_remise,
-                    date_edition = :date_edition,
-                    res_ch_id = :res_ch_id,
-                    nbrcouvert = :nbrcouvert,
-                    nomcaisse = :nomcaisse,
-                    mode2 = :mode2,
-                    syn = :syn,
-                    appear_state = :appear_state,
-                    id_user = :id_user,
-                    serveur_id = :serveur_id
-                WHERE id_fact = :id_fact
-            ");
-
-            $requete->execute([
-                ':etat' => $etat,
-                ':mont_ttc' => $mont_ttc,
-                ':mode' => $lib_mode,
-                ':taux' => $taux_op,
-                ':taux_prix' => $tauxdollar,
-                ':id_client' => $id_client,
-                ':montant_total' => $mont_ht,
-                ':mont_tva' => $montant_tva,
-                ':remise' => $montant_remise,
-                ':mont_ttc_remise' => $_SESSION['panier']['remise'],
-                ':date_edition' => $dte,
-                ':res_ch_id' => $res_ch_id,
-                ':nbrcouvert' => $nbrcouvert,
-                ':nomcaisse' => $nomcaisse,
-                ':mode2' => $mode2,
-                ':syn' => $syn,
-                ':appear_state' => $appear_state,
-                ':id_user' => $_SESSION['id_user'],   // utilisateur actuel
-                ':serveur_id' => $id_user_prev,       // ancien utilisateur
-                ':id_fact' => $id_fact
-            ]);
+            $requete = $bdd->prepare("UPDATE t_facture  SET etat=:etat,etat_cmd='0',mont_ttc=:mont_ttc,
+                                        mode=:mode,taux=:taux,taux_prix=:taux_prix,id_client=:id_client,
+                                        montant_total=:montant_total,mont_tva=:mont_tva,remise=:remise,mont_ttc_remise=:mont_ttc_remise,date_edition=:date_edition
+                                        ,res_ch_id=:res_ch_id,nbrcouvert=:nbrcouvert,nomcaisse=:nomcaisse,mode2=:mode2,syn=:syn,appear_state=:appear_state
+                                        WHERE id_fact=:id_fact");
+            $requete->BindParam(':etat', $etat);
+            $requete->BindParam(':mont_ttc', $mont_ttc);
+            $requete->BindParam(':mode', $lib_mode);
+            $requete->BindParam(':taux', $taux_op);
+            $requete->BindParam(':taux_prix', $tauxdollar);
+            //$requete->BindParam(':tva', $tva);
+            $requete->BindParam(':id_client', $id_client);
+            $requete->BindParam(':montant_total', $mont_ht);
+            $requete->BindParam(':mont_tva', $montant_tva);
+            $requete->BindParam(':remise', $montant_remise);
+            $requete->BindParam(':mont_ttc_remise', $_SESSION['panier']['remise']);
+            $requete->BindParam(':date_edition', $dte);
+            $requete->BindParam(':res_ch_id', $res_ch_id);
+            $requete->BindParam(':nbrcouvert', $nbrcouvert);
+            $requete->BindParam(':nomcaisse', $nomcaisse);
+            $requete->BindParam(':id_fact', $id_fact);
+            $requete->BindParam(':mode2', $mode2);
+            $requete->BindParam(':syn', $syn);
+            $requete->BindParam(':appear_state', $appear_state);
+            $requete->execute();
             /* Fin Update dans t_facture */
             // suppression de tous les produits
             $requete = $bdd->prepare("DELETE FROM  lignes_commandes WHERE commande_id=:id");

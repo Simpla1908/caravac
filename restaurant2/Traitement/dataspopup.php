@@ -276,7 +276,8 @@ $_SESSION['solde_usd'] = $solde_usd = $averser_usd - ($verser_usd + $dep_usd);
                                                     <input class="cdf" billet='10000'  type="text"
                                                             name="10000cdf" id="10000cdf" min="0" value="0"></td>
                                                 </tr>
-                                                <tr class="hidden">
+
+                                                <tr>
                                                     <td class="text-center" style="width: 50%">5.000</td>
                                                     <td class="text-center" style="width: 50%">
                                                     <input class="cdf" billet='5000'  type="text"

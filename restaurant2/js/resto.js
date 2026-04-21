@@ -620,10 +620,10 @@ $(document).ready(function () {
     if (bool_addition == 1) {
       $("#avertissement-modal").modal("show");
     } else {
-      if (user_type == 1 || user_type == 5) {
+      if (user_type == 1) {
         $(".div_txt").show();
         $(".div_frm").hide();
-      } else if ((user_type != 1 || user_type != 5) && id_cmd > 0) {
+      } else if (user_type != 1 && id_cmd > 0) {
         $(".div_txt").hide();
         $(".div_frm").show();
         $(".code").val("");
@@ -1030,6 +1030,9 @@ $(document).ready(function () {
     $("#fusion_frm").val($("#fusion_ticket").val());
     $("#id_fact_fus").val($("#id_fact_fus_frm").val());
     $("#id_tbl_fus2").val($("#id_tbl_fus").val());
+   // alert($("#mont_tot_panier").val());
+    $(".affichermontant").val($("#mont_tot_panier").val());
+
     var type_client = $(".idclrp").val();
     $('option[value="3"]').hide();
     if (type_client == "client") {
@@ -1896,6 +1899,7 @@ $(document).ready(function () {
       type: method,
       data: donnees,
       success: function (data) {
+        //alert(data);
         if (data.s) {
           $(".mt").val("");
           $("#myModal2").modal("hide");
@@ -1910,8 +1914,7 @@ $(document).ready(function () {
             .show()
             .fadeOut(4000);
         }
-      },
-      dataType: "json",
+      },   dataType: "json",
     });
   });
   $("#filter_depense_btn").click(function (e) {
@@ -2881,10 +2884,10 @@ $(document).ready(function () {
     if (bool_addition == 1) {
       $("#avertissement-modal").modal("show");
     } else {
-      if (user_type == 1 || user_type == 5) {
+      if (user_type == 1 ) {
         $(".div_txt").show();
         $(".div_frm").hide();
-      } else if ((user_type != 1 || user_type != 5) && id_cmd > 0) {
+      } else if (user_type != 1 && id_cmd > 0) {
         $(".div_txt").hide();
         $(".div_frm").show();
         $(".code").val("");

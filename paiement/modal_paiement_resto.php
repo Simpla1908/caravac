@@ -57,7 +57,7 @@
                                 <div class="col-lg-12 form-group cachebtn">
                                     <label>Montant <?php echo getsymbole_local(); ?> </label>
                                     <div class="input-group input-group-lg">
-                                        <input type="text" id="montantcdf" name="montantcdf" class="form-control text-right montant montant_py_resto mp" value="" 
+                                        <input type="text" id="montantcdf" name="montantcdf" class="form-control text-right montant montant_py_resto mp affichermontant" value="" 
                                         >
                                         <span class="input-group-addon"><?php echo getsymbole_local(); ?></span>
                                     </div>

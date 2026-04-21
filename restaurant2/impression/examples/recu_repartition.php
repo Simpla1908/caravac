@@ -360,16 +360,16 @@ ob_start();
                         ?>
                     </td>
                 </tr>
-                <!-- <tr>
+                <tr>
                     <td>5.000 CDF</td>
                     <td><?php //echo $_SESSION['5000cdf']; ?></td>
                     <td>
                         <?php
-                       // $totcdf3 =  $_SESSION['5000cdf'] * 5000;
-                      //  echo afficheMontant2('CDF', $totcdf3);
+                       $totcdf3 =  $_SESSION['5000cdf'] * 5000;
+                       echo afficheMontant2('CDF', $totcdf3);
                         ?>
                     </td>
-                </tr> -->
+                </tr>
                 <tr>
                     <td>1000 CDF</td>
                     <td><?php echo $_SESSION['1000cdf']; ?></td>

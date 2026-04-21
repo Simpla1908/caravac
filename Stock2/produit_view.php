@@ -39,8 +39,11 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class=" fa fa-list"></i> Liste des produits
+                            <a href="impression/imprimer_boissons.php" class="btn btn-primary pull-right btn-xs" target="_blank"><i class="fa fa-print"></i> Imprimer</a>
                             <a href="produit.php" class="btn btn-primary pull-right btn-xs" title="Ajouter un produit"><i class="fa fa-plus-circle"></i> Ajouter</a>
+
                         </div>
+                        
                         <div class="panel-body">
                           <!-- Affichage Operation-->
                            <?php include('Traitement/produits_affichage.php');?>

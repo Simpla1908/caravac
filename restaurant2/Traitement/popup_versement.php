@@ -61,7 +61,7 @@ $_SESSION['verser_cdf']=$verser_cdf=$r->mont_cdf;
 $_SESSION['solde_cdf']=$solde_cdf=$averser_cdf-$verser_cdf;
 $_SESSION['solde_usd']=$solde_usd=$averser_usd-$verser_usd;
 ?>
-<div class="modal fade Modal_versement" id="myModal_versement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade Modal_versement" id="myModal_versement12" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

@@ -16,20 +16,25 @@ if ($m_affiche == 'USD') {
     $email_compagny = $donnees['mail'];
     $m_affiche1 = 'USD';
 }
-$requete_idhotel = $bdd->prepare("SELECT * FROM  t_hotel WHERE id_hotel=:id_hotel");
-$requete_idhotel->BindParam(':id_hotel', $_SESSION['id_hotel']);
+/* ================== INFOS HOTEL ================== */
+$requete_idhotel = $bdd->prepare("SELECT * FROM t_hotel WHERE id_hotel=:id_hotel");
+$requete_idhotel->bindParam(':id_hotel', $_SESSION['id_hotel']);
 $requete_idhotel->execute();
-while ($donnees = $requete_idhotel->fetch()) {
-    $adresse_c = $donnees['adresse_hotel'];
-    $ville_hotel = $donnees['ville_hotel'];
-    $logo = $donnees['image'];
-    $idnat = $donnees['idnat'];
-    $rccm = $donnees['rccm'];
-    $num_impot = $donnees['num_impot'];
-    $phone = $donnees['phone'];
-    $mail = $donnees['mail'];
 
-}
+$donnees = $requete_idhotel->fetch();
+
+$nom_c = $donnees['nom_hotel'];
+$adresse_c = $donnees['adresse_hotel'];
+$ville_hotel = $donnees['ville_hotel'];
+$logo = $donnees['image'];
+$idnat = $donnees['idnat'];
+$rccm = $donnees['rccm'];
+$num_impot = $donnees['num_impot'];
+$telephone = $donnees['phone'];
+$email_compagny = $donnees['mail'];
+
+/* ================== DONNEES COMMANDE ================== */
+
 /* Fin de la Recuperation des coordonnées de l'hotel */
 ReimprimerPOS($_SESSION['id_fact'], $bdd);
 $nbArticles = count($_SESSION['panier1']['id_article']);
@@ -39,149 +44,143 @@ $image_url = './kembologo-clear.png';
 ob_start();
 ?>
 <style>
-    body {
-        font-family: DejaVu Sans, sans-serif;
-        color: #111111;
-        font-size: 15x;
-    }
-    #register {
-        padding: 8px 6px;
-    }
-    .ticket-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .ticket-table td {
-        padding: 4px 0;
-        vertical-align: top;
-    }
-    .ticket-header,
-    .ticket-company,
-    .ticket-meta,
-    .ticket-footer {
-        text-align: center;
-    }
-    .ticket-header {
-        border-bottom: 1px solid #000000;
-        padding: 6px 0 12px 0;
-    }
-    .ticket-logo {
-        width: 230px;
-        max-height: 200px;
-    }
-    .ticket-company {
-        border-bottom: 1px solid #000000;
-        padding: 8px 0;
-        line-height: 1.45;
-    }
-    .ticket-company .name {
-        font-size: 14px;
-        font-weight: bold;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-    }
-    .ticket-meta {
-        border-bottom: 1px solid #000000;
-        padding: 8px 0;
-        line-height: 1.55;
-    }
-    .ticket-title {
-        font-size: 15px;
-        font-weight: bold;
-        letter-spacing: 0.5px;
-    }
-    .section-gap td {
-        padding-top: 8px;
-    }
-    .items-head td {
-        font-size: 11px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-bottom: 1px dashed #000000;
-        padding-bottom: 6px;
-    }
-    .col-desc {
-        width: 56%;
-    }
-    .col-qty {
-        width: 14%;
-        text-align: center;
-    }
-    .col-amt {
-        width: 30%;
-        text-align: right;
-    }
-    .item-row td {
-        border-bottom: 1px dotted #999999;
-        padding: 6px 0;
-    }
-    .item-name {
-        font-weight: bold;
-    }
-    .totals-block td {
-        padding-top: 8px;
-    }
-    .total-line td {
-        border-top: 1px solid #000000;
-        font-size: 15px;
-        font-weight: bold;
-        padding-top: 8px;
-    }
-    .ticket-footer {
-        border-top: 1px solid #000000;
-        padding-top: 10px;
-        line-height: 1.5;
-        font-size: 15px;
-    }
+@page { margin: 0; }
+
+body {
+    font-family: DejaVu Sans, monospace;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    width: 80mm;
+}
+
+#register {
+    width: 100%;
+    text-align: center;
+    padding: 0 2mm; /* marge interne */
+}
+
+.ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ticket-header img {
+    width: 110px;
+    margin: 0 auto;
+}
+
+.ticket-company, .ticket-meta, .ticket-footer {
+    text-align: center;
+}
+
+.ticket-company .name {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.ticket-company div,
+.ticket-meta div {
+    font-size: 11px;
+}
+
+.ticket-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+hr {
+    border: none;
+    border-top: 1px dashed #000;
+    margin: 6px 0;
+}
+
+.items-head td {
+    font-weight: bold;
+    font-size: 11px;
+    border-bottom: 1px dashed #000;
+}
+
+.col-desc { width: 50%; text-align: left; }
+.col-qty  { width: 15%; text-align: center; }
+.col-amt  { width: 35%; text-align: right; }
+
+.item-row td {
+    padding: 3px 0;
+    font-size: 11px;
+}
+
+.total-line td {
+    border-top: 1px solid #000;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 5px;
+}
+
+.ticket-footer {
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+@media print {
+    body { margin: 0; }
+}
 </style>
 <div id="register">
-    <div id="ticket">
-        <table class="ticket-table">
-            <tbody id="entries">
-                <tr>
-                    <td colspan="3" class="ticket-header">
-                        <img class="ticket-logo" src="<?php echo $image_url; ?>">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="ticket-company">
-                        <div class="name"><?php echo $_SESSION['nom_hotel']; ?></div>
-                        <?php echo $adresse_c;  ?>
-                        <br>
-                        <?php echo $ville_hotel;  ?>
-                        <br>
-                        Contact : <?php echo $phone;  ?>
-                        <br>
-                        <?php echo $mail;  ?>
-                        <br>
-                        ID.Nat : <?php echo $idnat; ?> | RCCM : <?php echo $rccm; ?>
-                        <br>
-                        ONEM : <?php echo $num_impot;  ?>
-                    </td>
-                </tr>
+<table class="ticket-table">
 
-                <tr>
-                    <td colspan="3" class="ticket-meta">
-                        <div class="ticket-title">FACTURE N°<?php echo $_SESSION['num_commande']; ?></div>
-                        <?php echo dateAfficheForHr($_SESSION['date_edition2']); ?>
-                        <br>
-                        Mode : <?php echo $_SESSION['mode_fact']; ?>
-                        <br>
-                        Client/Table : <?php echo $_SESSION['nom_client']; ?>
-                        <br>
-                        Agent : <?php echo $_SESSION['nom_caissier']; ?>
-                         <br>
-                        Devise : <?php echo $m_affiche; ?>
-                    </td>
-                </tr>
-                <tr class="section-gap">
-                    <td colspan="3"></td>
-                </tr>
-                <tr class="items-head">
-                    <td class="col-desc">Designation</td>
-                    <td class="col-qty">Qte</td>
-                    <td class="col-amt">Montant</td>
-                </tr>
+    <!-- LOGO -->
+    <tr class="ticket-header">
+        <td colspan="3">
+            <img src="<?php echo $image_url; ?>">
+        </td>
+    </tr>
+
+    <!-- INFOS ENTREPRISE -->
+    <tr>
+        <td colspan="3" class="ticket-company">
+            <div class="name" style="font-weight: bold;font-size: 20px;"><?php echo $nom_c; ?></div>
+            <div>
+                <?php echo $adresse_c . ', ' . $ville_hotel; ?><br>
+                Tel : <?php echo $telephone; ?><br>
+                <?php echo $email_compagny; ?>
+            </div>
+            <div style="font-size:11px;">
+                ID.Nat : <?php echo $idnat; ?> |
+                RCCM : <?php echo $rccm; ?> |
+                ONEM : <?php echo $num_impot; ?>
+            </div>
+        </td>
+    </tr>
+
+    <tr><td colspan="3"><hr></td></tr>
+
+    <!-- INFOS COMMANDE -->
+    <tr>
+        <td colspan="3" class="ticket-meta">
+            <div class="ticket-title">
+                FACTURE N°<?php echo $_SESSION['num_commande']; ?>
+            </div>
+            <div>
+                <?php echo dateAfficheForHr($_SESSION['date_edition2']); ?><br>
+                CLIENT : <?php echo $_SESSION['nom_client']; ?><br>
+                AGENT : <?php echo $_SESSION['nom_user']; ?>
+            </div>
+        </td>
+    </tr>
+
+    <tr><td colspan="3"><hr></td></tr>
+
+
+    <!-- ENTETE TABLE -->
+    <tr class="items-head">
+        <td class="col-desc">DESIGNATION</td>
+        <td class="col-qty">QTE</td>
+        <td class="col-amt">MONTANT</td>
+    </tr>
+
+    <!-- ARTICLES -->
                 <?php
                 $tauxdollar = $_SESSION['tauxdollar'];
                 $monnaie_local = getsymbole_local();
@@ -195,9 +194,9 @@ ob_start();
                 ?>
                     <tr class="item-row">
                         <td class="col-desc">
-                            <span class="item-name"><?php echo $_SESSION['panier1']['nom'][$i]; ?></span>
+                            <span class="item-name"><strong><?php echo $_SESSION['panier1']['nom'][$i]; ?><strong></span>
                             <?php if (!empty($des_plt)) { ?>
-                                <br><span><?php echo $des_plt; ?></span>
+                                <br><span><strong><?php echo $des_plt; ?><strong></span>
                             <?php } ?>
                         </td>
                         <td class="col-qty"><?php echo $_SESSION['panier1']['qte'][$i]; ?></td>
@@ -220,15 +219,19 @@ ob_start();
                 <?php } ?>
                 <tr class="total-line">
                     <td colspan="2" align="left">TOTAL</td>
-                    <td class="col-amt"><?php echo afficheMontant2('', $ttc); ?> </td>
-                </tr>
+                 <td class="col-amt"><?php echo $ttc; ?> CDF</td>
+                  </tr>
                 <?php 
                 $ttc_cdf=montant_equivalent_bdd($monnaie_local, getsymbole_devise(), $tauxdollar, $ttc);
                 ?>
                <tr class="total-line">
-                    <td colspan="2" align="left">Soit </td>
+                    <td colspan="2" align="left">SOIT </td>
                     <td class="col-amt"><?php echo afficheMontant2('USD', $ttc_cdf); ?></td>
                 </tr>
+                
+                <tr><td colspan="3"><hr></td></tr>
+
+                <!-- FOOTER -->
                 <tr>
                     <td colspan="3" class="ticket-footer">
                         <b><?php echo $_SESSION['mention']; ?></b>
@@ -241,9 +244,10 @@ ob_start();
 </div>
 <?php
 $body = ob_get_clean();
-$body = iconv("UTF-8", "UTF-8//IGNORE", $body);
-$mpdf = new mPDF('c', array(80, 5000), 0, '', 0, 0, 0, 0, 0, 0);
+
+/* ================== PDF ================== */
+$mpdf = new mPDF('c', array(80, 3000), '', '', 4, 4, 2, 2, 0, 0);
+
 $mpdf->WriteHTML($body);
-//impression auto
-$mpdf->setjs('this.print()');
-$mpdf->Output("ticket.pdf", "I");
+$mpdf->SetJS('this.print();');
+$mpdf->Output("Facture.pdf", "I");

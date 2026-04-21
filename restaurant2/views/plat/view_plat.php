@@ -18,6 +18,11 @@ foreach ($res3 as $art2){
 ?>
 <br>
 <div class="table-responsive">
+    <div style="text-align:right; margin-bottom:10px;">
+    <a href="impression/examples/imprimer_plats.php" target="_blank" class="btn btn-primary">
+        <i class="fa fa-print"></i> Imprimer
+    </a>
+</div>
     <table id="table" class="table table-bordered table-condensed  tblplat">
         <thead>
             <tr>

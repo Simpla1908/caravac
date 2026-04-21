@@ -69,7 +69,16 @@ if ($do == 'liste') {
     $taux = $_SESSION['taux_resto'];
     $user_id = $_SESSION['id_user'];
     $montantsaisi = $usd * $taux + $cdf;
+    if($solde['usd']<0)$solde['usd']=0;
+    if($solde['cdf']<0)$solde['cdf']=0;
     $totcaisse = $solde['usd'] * $taux + $solde['cdf'];
+    // echo 'solde usd '.$solde['usd'];
+    // echo 'solde cdf '.$solde['cdf'];
+    // echo 'taux '.$taux;
+    // echo 'montantsaisi '.$montantsaisi;
+    // echo 'cdf '.$cdf;
+    // echo 'usd '.$usd;
+
     if ($cdf == '' || $cdf < 0) {
         $cdf = 0;
     }

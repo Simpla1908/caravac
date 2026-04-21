@@ -577,20 +577,13 @@ function sessionPrintFactureFusion($facture_id, $num_fact, $creepar, $date, $mon
 }
 function GetCaffOfDayResto($bdd)
 {
-    $hr_1 = '00:00:00';
-    $hr_2 = '05:00:00';
-    $hr_operation = date('H:i:s');
+   
     $dte = date('Y-m-d');
-    if ($hr_operation >= $hr_1 && $hr_operation <= $hr_2) {
-        $dte = ReduiceDaysToDate($dte, 1);
-    }
+
     $select['usd'] = 0;
     $select['cdf'] = 0;
     $fc_usd = $fc_cdf = 0;
-    $id_user = $_SESSION['id_user'];
-    if ($_SESSION['type_user'] == 1) {
-
-        // REPORT
+       // REPORT
         $rfond_cdf = 0;
         $rfond_usd = 0;
 
@@ -608,18 +601,22 @@ function GetCaffOfDayResto($bdd)
         $requete = $bdd->prepare("SELECT SUM(a.usd) AS usd,SUM(a.cdf) AS cdf
                                 FROM fondscaisse AS a
                                 WHERE a.hotel_id=:hotel_id
+                                AND a.dte=:dte
                                 ");
         $requete->BindParam(':hotel_id', $_SESSION['id_hotel']);
+        $requete->BindParam(':dte', $dte);
         $requete->execute();
         $fc = $requete->fetch(PDO::FETCH_OBJ);
         $fc_usd = $fc->usd + $rfond_usd;
         $fc_cdf = $fc->cdf + $rfond_cdf;
 
-        $requete = $bdd->prepare("SELECT SUM(c.montantusd-c.rendu_usd) AS usd,SUM(c.montantcdf-c.rendu_cdf) AS cdf
+        $requete = $bdd->prepare("SELECT SUM(c.montantusd-(c.rendu_usd/c.taux)) AS usd,SUM(c.montantcdf-c.rendu_cdf) AS cdf
                                 FROM t_facture AS a, t_reglement AS b, paiement AS c
                                 WHERE a.id_fact=b.id_fact AND b.id_regl=c.regl_id
                                 AND c.id_mode_regl IN(2)
+                                AND b.dte=:dte
                                 AND c.site_id=:site_id");
+        $requete->BindParam(':dte', $dte);
         $requete->BindParam(':site_id', $_SESSION['id_hotel']);
         $requete->execute();
         $result = $requete->fetchAll(PDO::FETCH_OBJ);
@@ -627,53 +624,6 @@ function GetCaffOfDayResto($bdd)
             $select['usd'] = $r->usd;
             $select['cdf'] = $r->cdf;
         }
-    } else {
-        // REPORT
-        $rfond_cdf = 0;
-        $rfond_usd = 0;
-
-        $requete = $bdd->prepare("SELECT cdf ,usd  FROM  reportcaisse WHERE hotel_id=:id_hotel  AND user_id=:id_user
-                                     ORDER BY id DESC LIMIT 1");
-        $requete->BindParam(':id_hotel', $_SESSION['id_hotel']);
-        $requete->BindParam(':id_user', $id_user);
-        $requete->execute();
-        $result = $requete->fetchAll(PDO::FETCH_OBJ);
-
-        foreach ($result as $r) {
-            $rfond_cdf = $r->cdf;
-            $rfond_usd = $r->usd;
-        }
-        $requete = $bdd->prepare("SELECT SUM(a.usd) AS usd,SUM(a.cdf) AS cdf
-                                FROM fondscaisse AS a
-                                WHERE a.sousresto_id=:id_sousresto
-                                AND a.user_id=:id_user
-                                AND a.dte=:dte");
-        $requete->BindParam(':id_sousresto', $_SESSION['id_sousresto']);
-        $requete->BindParam(':id_user', $id_user);
-        $requete->BindParam(':dte', $dte);
-        $requete->execute();
-        $fc = $requete->fetch(PDO::FETCH_OBJ);
-        $fc_usd = $fc->usd +  $rfond_usd;
-        $fc_cdf = $fc->cdf +  $rfond_cdf;
-        $requete = $bdd->prepare("SELECT SUM(c.montantusd-c.rendu_usd) AS usd,SUM(c.montantcdf-c.rendu_cdf) AS cdf
-                                FROM t_facture AS a, t_reglement AS b, paiement AS c
-                                WHERE a.id_fact=b.id_fact AND b.id_regl=c.regl_id
-                                AND c.id_mode_regl IN(2)
-                                AND c.id_sousresto=:id_sousresto
-                                AND b.id_user=:id_user
-                                AND b.dte=:dte
-                                GROUP BY c.id_sousresto");
-        $requete->BindParam(':id_sousresto', $_SESSION['id_sousresto']);
-        $requete->BindParam(':id_user', $id_user);
-        $requete->BindParam(':dte', $dte);
-        $requete->execute();
-        $result = $requete->fetchAll(PDO::FETCH_OBJ);
-        foreach ($result as $r) {
-            $select['usd'] = $r->usd;
-            $select['cdf'] = $r->cdf;
-        }
-    }
-
     $select['usd'] += $fc_usd;
     $select['cdf'] += $fc_cdf;
     return $select;
@@ -2666,7 +2616,7 @@ function detailsSalesCategorie($d1, $d2, $idsite, $bdd)
     $data['montant_credit'] = array();
     $data['montant_don'] = array();
     $mobilepaiements = getModesMobiles($bdd);
-    $requete = $bdd->prepare("SELECT f.id,f.nom,SUM((b.qte*b.prixremise)) AS mont,a.mode
+    $requete = $bdd->prepare("SELECT f.id,f.nom,f.designation,SUM((b.qte*b.prixremise)) AS mont,a.mode
     FROM lignes_commandes AS b, stk_produit AS c, t_facture AS a,
             stk_sous_famille AS d,stk_famille AS e,stk_familletype AS f
 	WHERE a.id_fact=b.commande_id 
@@ -2678,7 +2628,7 @@ function detailsSalesCategorie($d1, $d2, $idsite, $bdd)
     AND a.date_edition  BETWEEN :date_bd1 AND :date_bd2
     AND a.id_hotel  =:id_hotel 
 	GROUP BY f.id,a.mode2
-	ORDER BY f.nom");
+	ORDER BY f.priority");
     $requete->BindParam(':id_hotel', $idsite);
     $requete->BindParam(':date_bd1', $d1);
     $requete->BindParam(':date_bd2', $d2);
@@ -2688,7 +2638,7 @@ function detailsSalesCategorie($d1, $d2, $idsite, $bdd)
 
     foreach ($result as $r) {
         $id = $r->id;
-        $nom = $r->nom;
+        $nom = $r->designation;
         $mode = $r->mode;
         $montant = $r->mont;
         $numTarif = $id;
@@ -3487,7 +3437,7 @@ function detailsSalesCategorie3($caissier_id, $d1, $d2, $idsite, $bdd)
     $mobilepaiements = getModesMobiles($bdd);
 
     if ($caissier_id == 0) {
-        $requete = $bdd->prepare("SELECT f.id,f.nom,SUM((b.qte*b.prixremise)) AS mont,a.mode
+        $requete = $bdd->prepare("SELECT f.id,f.nom,f.designation,SUM((b.qte*b.prixremise)) AS mont,a.mode
     FROM lignes_commandes AS b, stk_produit AS c, t_facture AS a,
             stk_sous_famille AS d,stk_famille AS e,stk_familletype AS f
 	WHERE a.id_fact=b.commande_id 
@@ -3499,13 +3449,13 @@ function detailsSalesCategorie3($caissier_id, $d1, $d2, $idsite, $bdd)
     AND a.date_edition  BETWEEN :date_bd1 AND :date_bd2
     AND a.id_hotel  =:id_hotel 
 	GROUP BY f.id,a.mode2
-	ORDER BY f.nom");
+	ORDER BY f.priority");
         $requete->BindParam(':id_hotel', $idsite);
         $requete->BindParam(':date_bd1', $d1);
         $requete->BindParam(':date_bd2', $d2);
         $requete->execute();
     } else {
-        $requete = $bdd->prepare("SELECT f.id,f.nom,SUM((b.qte*b.prixremise)) AS mont,a.mode
+        $requete = $bdd->prepare("SELECT f.id,f.nom,f.designation,SUM((b.qte*b.prixremise)) AS mont,a.mode
     FROM lignes_commandes AS b, stk_produit AS c, t_facture AS a,
             stk_sous_famille AS d,stk_famille AS e,stk_familletype AS f
 	WHERE a.id_fact=b.commande_id 
@@ -3518,7 +3468,7 @@ function detailsSalesCategorie3($caissier_id, $d1, $d2, $idsite, $bdd)
     AND a.id_hotel=:id_hotel
     AND a.id_user=:id_user 
 	GROUP BY f.id,a.mode2
-	ORDER BY f.nom");
+	ORDER BY f.priority");
         $requete->BindParam(':id_hotel', $idsite);
         $requete->BindParam(':date_bd1', $d1);
         $requete->BindParam(':date_bd2', $d2);
@@ -3530,7 +3480,7 @@ function detailsSalesCategorie3($caissier_id, $d1, $d2, $idsite, $bdd)
 
     foreach ($result as $r) {
         $id = $r->id;
-        $nom = $r->nom;
+        $nom = $r->designation;
         $mode = $r->mode;
         $montant = $r->mont;
         $numTarif = $id;
@@ -3586,12 +3536,11 @@ function PaiementCreance3($caissier_id, $dte1, $dte2, $bdd)
             AND f.mode='Credit'
             AND b.id_mode_regl IN(2,3)
             AND fa.dte BETWEEN :dte1 AND :dte2
-            AND  b.site_id=:id_hotel
-            AND fa.id_user=:id_user");
+            AND  b.site_id=:id_hotel");
         $requete->BindParam(':id_hotel', $idsite);
         $requete->BindParam(':dte1', $dte1);
         $requete->BindParam(':dte2', $dte2);
-        $requete->BindParam(':id_user', $caissier_id);
+      //  $requete->BindParam(':id_user', $caissier_id);
         $requete->execute();
     }
 
@@ -3617,7 +3566,6 @@ function getMontantVenteParMode3($caissier, $maffiche, $site_id, $dte1, $dte2, $
                     AND a.mode IS NOT NULL
                     AND a.date_edition  BETWEEN :dte1 AND :dte2
                     AND a.id_sousresto=:site_id
-                    AND a.id_user=:id_user
                     GROUP BY a.mode";
     } else {
         $req = "SELECT a.mode AS lib,a.mode2,SUM(b.qte*b.prixremise) AS montant
@@ -3627,7 +3575,6 @@ function getMontantVenteParMode3($caissier, $maffiche, $site_id, $dte1, $dte2, $
         AND a.mode IS NOT NULL
         AND a.date_edition  BETWEEN :dte1 AND :dte2
         AND a.id_sousresto=:site_id
-        AND a.id_user=:id_user
         GROUP BY a.mode";
     }
 
@@ -3636,7 +3583,6 @@ function getMontantVenteParMode3($caissier, $maffiche, $site_id, $dte1, $dte2, $
     $requete->BindParam(':site_id', $site_id);
     $requete->BindParam(':dte1', $dte1);
     $requete->BindParam(':dte2', $dte2);
-    $requete->BindParam(':id_user', $caissier);
     $requete->execute();
     $result = $requete->fetchAll(PDO::FETCH_OBJ);
 

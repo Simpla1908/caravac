@@ -22,7 +22,7 @@ $json = array();
 global $user_id;
 $user_id = $code;
 if ($id_cmd > 0) {
-    if ($_SESSION['type_user'] == 1 || $_SESSION['type_user'] == 5) {
+    if ($_SESSION['type_user'] == 1) {
         $_SESSION['Id_Admin'] = $_SESSION['id_user'];
         $_SESSION['User_Admin'] = $_SESSION['nom_user'];
         $agent =$_SESSION['nom_user'];
@@ -42,7 +42,7 @@ if ($id_cmd > 0) {
             $type = $st->type;
             $nom_user = $st->nom_user;
             $email_user = $st->email_user;
-            if ($type== 1 || $type== 5) {
+            if ($type== 1) {
                 $_SESSION['Id_Admin'] = $_SESSION['id_user'];
                 $_SESSION['User_Admin'] = $_SESSION['nom_user'];
                 $agent =$nom_user;
