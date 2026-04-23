@@ -144,7 +144,7 @@ $taux_op = $_SESSION['taux_resto'];
                             <form class="form-inline">
                                 <fieldset>
                                     <input type="hidden" name="sousresto_id" id="sousresto_id" value="<?php echo $_SESSION['id_sousresto'] ?>" />
-                                    <?php if($_SESSION['type_user']==1){ ?>
+                                    <?php //if($_SESSION['type_user']==1){ ?>
                                         <div class="form-group">
                                             <label for="ex4">&nbsp;CAISSIER&nbsp;</label>
                                             <select class="form-control" id="caissier_id" name="caissier_id" required>
@@ -162,7 +162,7 @@ $taux_op = $_SESSION['taux_resto'];
                                                 ?>
                                             </select>
                                         </div>
-                                    <?php } ?>
+                                    <?php //} ?>
                                     <div class="form-group hidden">
                                         <label for="ex4">&nbsp;SERVEUR&nbsp;</label>
                                         <select class="form-control" id="serveur_id" name="serveur_id" required>

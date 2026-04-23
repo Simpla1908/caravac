@@ -23,11 +23,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>N° Facture</th>
-                        <th>Client</th>
-                        <th>Serveur</th>
                         <th>Date</th>
-                        <th>Mode</th>
+                        <th>N° Facture</th>
+                        <th>Table/Client</th>
+                        <th>Serveur</th>
+                        <th>Caissier</th>
                         <th>Montant total</th>
                         <th>Montant Payé</th>
                         <th></th>
@@ -49,7 +49,9 @@
                             if (empty($nom_client)) {
                                 $nom_client = $facture->designation;
                             }
-                            $nom_user = $facture->nom_user;
+                            $nomcaisse= $facture->nomcaisse;
+                            $serveur_name= $facture->serveur_name;
+
                             $date_edition = $facture->date_edition;
                             $mont_ttc = $facture->mont_ttc;
                             $taux_op = $facture->taux;
@@ -62,15 +64,15 @@
                                 $mont_paye = $mont_tot;
                             }
                             //Mise en session pour impression
-                            sessionPrintFacture($id_fact, $num_fact, $nom_client, $nom_user, $date_edition, $mode, $mont_paye, $mont_tot);
+                            sessionPrintFacture($id_fact, $num_fact, $nom_client, $serveur_name, $date_edition, $mode, $mont_paye, $mont_tot);
                     ?>
                             <tr>
                                 <td><?php echo $i ?></td>
+                               <td><?php echo dateAffiche($date_edition) ?></td>
                                 <td><?php echo $num_fact ?></td>
                                 <td><?php echo $nom_client ?></td>
-                                <td><?php echo $nom_user ?></td>
-                                <td><?php echo dateAffiche($date_edition) ?></td>
-                                <td><?php echo $mode ?></td>
+                                <td><?php echo $serveur_name ?></td>
+                                <td><?php echo $nomcaisse ?></td>
                                 <td><?php echo afficheMontant2($m_affiche, $mont_tot); ?></td>
                                 <td><?php echo afficheMontant2($m_affiche, $mont_paye); ?></td>
                                 <td>
@@ -202,10 +204,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>N° Facture</th>
-                        <th>Client</th>
-                        <th>Serveur</th>
                         <th>Date</th>
+                        <th>N° Facture</th>
+                        <th>Table/Client</th>
+                        <th>Serveur</th>
+                        <th>Caissier</th>
                         <th>Montant total</th>
                         <th></th>
                     </tr>
@@ -227,7 +230,8 @@
                             if (empty($nom_client)) {
                                 $nom_client = $facture->designation;
                             }
-                            $nom_user = $facture->nom_user;
+                            $nomcaisse= $facture->nomcaisse;
+                            $serveur_name= $facture->serveur_name;
                             $date_edition = $facture->date_edition;
                             $mont_ttc = $facture->mont_ttc;
                             $taux_op = $facture->taux;
@@ -235,14 +239,15 @@
                             $mont_tot = montant_equivalent_bdd($monnaie, $m_affiche, $taux_op, $mont_ttc);
                             $mont_paye = 0;
                             //Mise en session pour impression
-                            sessionPrintFactureAnnulee($id_fact, $num_fact, $nom_client, $nom_user, $date_edition, $mode, $mont_paye, $mont_tot);
+                            sessionPrintFactureAnnulee($id_fact, $num_fact, $nom_client, $nomcaisse, $date_edition, $mode, $mont_paye, $mont_tot);
                     ?>
                             <tr>
                                 <td><?php echo $i ?></td>
+                                <td><?php echo dateAffiche($date_edition) ?></td>
                                 <td><?php echo $num_fact ?></td>
                                 <td><?php echo $nom_client ?></td>
-                                <td><?php echo $nom_user ?></td>
-                                <td><?php echo dateAffiche($date_edition) ?></td>
+                                <td><?php echo $serveur_name ?></td>
+                                <td><?php echo $nomcaisse ?></td>
                                 <td><?php echo afficheMontant2($m_affiche, $mont_tot); ?></td>
                                 <td>
                                     <a class="btn btn-info btn-xs " href="?p=facture&d=details&id=<?php echo $id_fact ?>">

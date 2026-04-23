@@ -164,7 +164,7 @@ hr {
             </div>
             <div>
                 <?php echo dateAfficheForHr($_SESSION['date_edition2']); ?><br>
-                CLIENT : <?php echo $_SESSION['nom_client']; ?><br>
+                TABLE/CLIENT : <?php echo $_SESSION['nom_client']; ?><br>
                 AGENT : <?php echo $_SESSION['nom_user']; ?>
             </div>
         </td>

@@ -57,7 +57,14 @@
                                     <div class="col-sm-2 invoice-col">
                                         Serveur
                                         <address>
-                                            <strong><?php echo $nom_user ?></strong><br>
+                                            <strong><?php echo $serveur_name ?></strong><br>
+                                        </address>
+                                    </div>
+
+                                      <div class="col-sm-2 invoice-col">
+                                        Caissier
+                                        <address>
+                                            <strong><?php echo $nomcaisse ?></strong><br>
                                         </address>
                                     </div>
                                     <!-- /.col -->

@@ -73,10 +73,10 @@ ob_start();
         <table style="width:100%; font-family: monospace; font-size: 12px; border-collapse: collapse;">
             <tbody id="entries">
                 <tr>
-                    <td colspan="3" align="center" style="border-bottom: 1px solid black;">
+                    <td colspan="3" align="center" style="font-weight: bold;font-size: 20px;">
                         <b><?php echo strtoupper($nom_c) ?>
                         </b> <br>
-                        <b>(<?php echo strtoupper($_SESSION['libelle_resto']) ?>)</b><br>
+                        <!-- <b>(<?php //echo strtoupper($_SESSION['libelle_resto']) ?>)</b><br> -->
                     </td>
                 </tr>
                 <tr>
@@ -87,7 +87,7 @@ ob_start();
                             (<?php echo $periode; ?>)
 
                             <br>
-                            Caissier:<?php echo $caissier_name; ?><br>
+                            AGENT : <?php echo $_SESSION['nom_user']; ?><br>
                         </b>
                     </td>
                 </tr>
@@ -210,9 +210,13 @@ ob_start();
                     <td align="right" colspan="2"><b>TOTAL PERCU</b></td>
                     <td><b> :<?php echo afficheMontant2($m_affiche, $total + $totalpaiecreance); ?></b></td>
                 </tr>
+                 <tr>
+                    <td align="right" colspan="2"><b>SOIT</b></td>
+                    <td><b> :<?php echo afficheMontant2(getsymbole_devise(), montant_equivalent_bdd(getsymbole_local(), getsymbole_devise(), $_SESSION['tauxdollar'],$total + $totalpaiecreance)); ?></b></td>
+                </tr>
                 <tr>
                     <td align="center" colspan="3" style="border-top: 1px solid black;">
-                        <b> Imprimé, le <?php echo date('d/m/Y H:i:s'); ?>, par <?php echo $_SESSION['prenom_user'] . ' ' . $_SESSION['nom_user']; ?></b>
+                        <b> Imprimé, le <?php echo date('d/m/Y H:i:s'); ?></b>
                     </td>
                 </tr>
             </tbody>

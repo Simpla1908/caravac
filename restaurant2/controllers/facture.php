@@ -92,7 +92,8 @@ if ($do == 'liste') {
     }
     $mode = $facture->mode;
     $date_edition = $facture->date_edition;
-    $nom_user = $facture->nom_user;
+    $nomcaisse= $facture->nomcaisse;
+    $serveur_name= $facture->serveur_name;
     $num_fact = $facture->num_fact;
     $taux_prix = $facture->taux_prix;
     $taux_op = $facture->taux;
